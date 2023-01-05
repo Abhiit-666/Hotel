@@ -3,6 +3,7 @@ package com.example.backend.Service.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.backend.Repositories.Booking.BookingRepository;
 import com.example.backend.model.booking.Booking;
 import com.example.backend.model.booking.Room;
 
