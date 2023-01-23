@@ -4,13 +4,15 @@ import java.util.Date;
 
 public class Booking {
     private Long id;
+    private String customerName;
     private Room room;
     private Date startDate;
     private Date endDate;
     private double totalPrice;
 
-    public Booking(Long id, Room room, Date startDate, Date endDate, double totalPrice) {
+    public Booking(Long id, Room room, Date startDate, Date endDate, double totalPrice, String customerName) {
         this.id = id;
+        this.customerName = customerName;
         this.room = room;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -18,6 +20,15 @@ public class Booking {
     }
 
     public Booking() {
+    }
+
+    /* customer_name getter/setter */
+    public String getcustomerName() {
+        return customerName;
+    }
+
+    public void setcustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     /**
