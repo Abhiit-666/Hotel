@@ -1,1 +1,23 @@
-<p>frontdesk works!</p>
+<div class="container">
+  <h1>Front Desk</h1>
+  <form>
+    <div class="form-group">
+      <label for="query">Customer Query</label>
+      <textarea class="form-control" id="query" [(ngModel)]="query" name="query"></textarea>
+    </div>
+    <button class="btn btn-primary" (click)="submitQuery()">Submit Query</button>
+  </form>
+  <hr>
+  <form>
+    <div class="form-group">
+      <label for="roomNumber">Room Number</label>
+      <input type="text" class="form-control" id="roomNumber" [(ngModel)]="checkout.roomNumber" name="roomNumber">
+    </div>
+    <div class="form-group">
+      <label for="checkoutDate">Checkout Date</label>
+      <input type="date" class="form-control" id="checkoutDate" [(ngModel)]="checkout.checkoutDate" name="checkoutDate">
+    </div>
+    <button class="btn btn-primary" (click)="submitCheckout()">Submit Checkout</button>
+  </form>
+</div>
+

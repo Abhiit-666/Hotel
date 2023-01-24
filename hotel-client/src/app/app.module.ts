@@ -8,6 +8,8 @@ import { FrontdeskComponent } from './frontdesk/frontdesk.component';
 import { HousekeepingComponent } from './housekeeping/housekeeping.component';
 import { KitchenComponent } from './kitchen/kitchen.component';
 
+import { FrontdeskService } from './services/frontdesk.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +22,7 @@ import { KitchenComponent } from './kitchen/kitchen.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [FrontdeskService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
