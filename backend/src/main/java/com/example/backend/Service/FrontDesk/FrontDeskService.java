@@ -1,5 +1,11 @@
 package com.example.backend.Service.FrontDesk;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,13 +48,34 @@ public class FrontDeskService {
     }
 
     // This method needs further evaluation and modification
-    public int handleCheckout(Checkout request) {
-        // fetch total expence for the customer
-        Map<String, Object> params = new HashMap<>();
-        params.put("customerName", request.getCustomerName());
-        String sql = "Select end_date From booking where customer_name=:customerName";
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
-        Date end_date = namedParameterJdbcTemplate.query(sql, params);
+    public int handleCheckout(Checkout request) throws ParseException {
+        // fetch total expence for the customer and the end date for the customer.
+        // Recalculate expense if the checkout date is in the future compared to the
+        // initial booking end date
+        String sql = "select totalPrice,endDate from bookings where customer_name=? and room=?";
+        Map<String, Object> result = jdbcTemplate.queryForMap(sql, request.getCustomerName(), request.getRoomNumber());
+        int totalExpenses = (int) result.get("totalPrice");
+        // casting to string becasue its an object in the map ?
+        LocalDate endDate = LocalDate.parse((String) result.get("endDate"));
+        // request class returns a Date; hence converting it to a LocalDate as it is
+        // more Thread safe
+        Date d_checkoutDate = request.getCheckoutDate();
+        Instant instant = d_checkoutDate.toInstant();
+        LocalDate checkoutDate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+
+        // check if the checkout date is the same or more than the booking end date.
+        if (endDate.isBefore(checkoutDate)) {
+            // get the updated price for the room with the checkout date.
+            totalExpenses = 0;
+        }
+
+        // removing customer from the bookings db
+        String sql2 = "delete from bookings where customer_name=? and room=?";
+        jdbcTemplate.update(sql2, request.getCustomerName(), request.getRoomNumber());
+
+        return totalExpenses;
 
     }
+
+    // will have to add billing fuctionality after checkout
 }

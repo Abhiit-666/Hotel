@@ -1,5 +1,6 @@
 package com.example.backend.model.FrontDesk;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Checkout {
