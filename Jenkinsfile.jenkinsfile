@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build Spring Boot') {
+            steps {
+                dir('backend') {
+                    sh 'gradle clean build'
+                }
+            }
+        }
+        stage('Build Angular') {
+            steps {
+                dir('hotel-client') {
+                    sh 'npm install'
+                    sh 'ng build --prod'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'backend/build/libs/*.jar'
+            archiveArtifacts artifacts: 'hotel-client/dist'
+        }
+    }
+}
